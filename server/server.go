@@ -31,6 +31,8 @@ func StartServer() {
 	conn, err := net.ListenUDP("udp", addr)
 	if err != nil {
 		log.Fatal(err)
+	} else {
+		log.Printf("Server listening for packets on %s\n\n", conn.LocalAddr())
 	}
 
 	// defer server to close when method finishes
@@ -52,7 +54,7 @@ func StartServer() {
 		log.Printf("packet received from: %s, bytes=%d\n", sender.String(), n)
 
 		// Print the data from packet
-		fmt.Println(string(buf[0:n]))
+		fmt.Printf("Message: %s\n\n", string(buf[0:n]))
 
 	}
 
