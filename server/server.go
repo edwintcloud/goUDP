@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 )
@@ -49,6 +50,9 @@ func StartServer() {
 
 		// log the packet
 		log.Printf("packet received from: %s, bytes=%d\n", sender.String(), n)
+
+		// Print the data from packet
+		fmt.Println(string(buf[0:n]))
 
 	}
 
