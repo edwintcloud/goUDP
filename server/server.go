@@ -4,25 +4,31 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strconv"
 )
 
 const (
-	port = ":10001"
-	bs   = 1 << 10 // 1024 bytes
+	startPort = 10001   // 100 ports following will be occupied
+	bs        = 1 << 10 // 1024 bytes
 )
 
 func main() {
 
-	// start udp server
-	StartServer()
+	// start udp servers
+	for i := 0; i < 99; i++ {
+		go StartServer(startPort + i)
+	}
+
+	// Last server we start in main go routine
+	StartServer(startPort + 99)
 
 }
 
 // StartServer starts our udp server and listens for packets
-func StartServer() {
+func StartServer(port int) {
 
 	// resolve udp address from port
-	addr, err := net.ResolveUDPAddr("udp", port)
+	addr, err := net.ResolveUDPAddr("udp", ":"+strconv.Itoa(port))
 	if err != nil {
 		log.Fatal(err)
 	}
